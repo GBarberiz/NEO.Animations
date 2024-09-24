@@ -83,9 +83,36 @@ namespace NEO.Animations
             SlideIn(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, rectHeight * 0.5f));
         }
         ///<summary> 
-        /// Creates a big slide-down animation for a RectTransform using DOTween, starting from a position completely above the screem.
-        ///</summary> 
-        ///<param name="duration">The duration of the slide-down animation.</param>
+        /// Creates a slide-down animation for a RectTransform using DOTween, starting from a position slightly below the initial position.
+        ///</summary>
+        ///<param name = "duration" > The duration of the animation.</param>
+        public static void NEOSlideUpIn(this RectTransform rectTransform, float duration)
+        {
+            float rectHeight = - rectTransform.rect.height * rectTransform.localScale.y;
+            SlideIn(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, rectHeight * 0.5f));
+        }
+        ///<summary>
+        /// Creates a slide-left animation for a RectTransform using DOTween, starting from a position slightly to the right of the initial position.
+        ///</summary>
+        ///<param name = "duration" > The duration of the animation.</param>
+        public static void NEOSlideLeftIn(this RectTransform rectTransform, float duration)
+        {
+            float rectWidth = - rectTransform.rect.width * rectTransform.localScale.x;
+            SlideIn(rectTransform, duration, new Vector2(rectWidth * 0.5f, rectTransform.anchoredPosition.y));
+        }
+        ///<summary>
+        /// Creates a slide-right animation for a RectTransform using DOTween, starting from a position slightly to the left of the initial position.
+        ///</summary>
+        ///<param name = "duration" > The duration of the animation.</param>
+        public static void NEOSlideRightIn(this RectTransform rectTransform, float duration)
+        {
+            float rectWidth = rectTransform.rect.width * rectTransform.localScale.x;
+            SlideIn(rectTransform, duration, new Vector2(rectWidth * 0.5f,rectTransform.anchoredPosition.y));
+        }
+        ///<summary> 
+        /// Creates a big slide-down animation for a RectTransform using DOTween, starting from the top edge of the canvas.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
         public static void NEOBigSlideDownIn(this RectTransform rectTransform, float duration)
         {
             if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
@@ -105,6 +132,76 @@ namespace NEO.Animations
             float offset = (canvasRect.rect.height * 0.5f) + rectTransform.pivot.y * rectHeight;
 
             SlideIn(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x,offset));
+        }
+        ///<summary> 
+        /// Creates a big slide-up animation for a RectTransform using DOTween, starting from the bottom edge of the canvas.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
+        public static void NEOBigSlideUpIn(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            Canvas canvas = rectTransform.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("RectTransform is not inside a Canvas.");
+                return;
+            }
+
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+            float rectHeight = rectTransform.rect.height * rectTransform.localScale.y;
+
+            // Calculate the offset to move the RectTransform completely above the canvas view
+            float offset = (canvasRect.rect.height * 0.5f) + rectTransform.pivot.y * rectHeight;
+
+            SlideIn(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, -offset));
+        }
+        ///<summary> 
+        /// Creates a big slide-left animation for a RectTransform using DOTween, starting from the right edge of the canvas.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
+        public static void NEOBigSlideLeftIn(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            Canvas canvas = rectTransform.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("RectTransform is not inside a Canvas.");
+                return;
+            }
+
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+            float rectWidth = rectTransform.rect.width * rectTransform.localScale.x;
+
+            float offset = (canvasRect.rect.width * 0.5f) + rectTransform.pivot.x * rectWidth;
+
+            SlideIn(rectTransform, duration, new Vector2(- offset,rectTransform.anchoredPosition.y));
+        }
+        ///<summary> 
+        /// Creates a big slide-right animation for a RectTransform using DOTween, starting from the left edge of the canvas.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
+        public static void NEOBigSlideRightIn(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            Canvas canvas = rectTransform.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("RectTransform is not inside a Canvas.");
+                return;
+            }
+
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+            float rectWidth = rectTransform.rect.width * rectTransform.localScale.x;
+
+            float offset = (canvasRect.rect.width * 0.5f) + rectTransform.pivot.x * rectWidth;
+
+            SlideIn(rectTransform, duration, new Vector2(offset, rectTransform.anchoredPosition.y));
         }
         #endregion
 
@@ -187,6 +284,33 @@ namespace NEO.Animations
             SlideOut(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, rectHeight * 0.5f));
         }
         ///<summary> 
+        /// Creates a slide-up animation for a RectTransform using DOTween, ending at a position slightly above the initial position.
+        ///</summary>
+        ///<param name = "duration" > The duration of the animation.</param>
+        public static void NEOSlideUpOut(this RectTransform rectTransform, float duration)
+        {
+            float rectHeight = rectTransform.rect.height * rectTransform.localScale.y;
+            SlideOut(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, rectHeight * 0.5f));
+        }
+        ///<summary> 
+        /// Creates a slide-right animation for a RectTransform using DOTween, ending at a position slightly to the right of the initial position.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
+        public static void NEOSlideRightOut(this RectTransform rectTransform, float duration)
+        {
+            float rectWidth = rectTransform.rect.width * rectTransform.localScale.x;
+            SlideOut(rectTransform, duration, new Vector2(rectWidth * 0.5f, rectTransform.anchoredPosition.y));
+        }
+        ///<summary> 
+        /// Creates a slide-left animation for a RectTransform using DOTween, ending at a position slightly to the left of the initial position.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
+        public static void NEOSlideLeftOut(this RectTransform rectTransform, float duration)
+        {
+            float rectWidth = - rectTransform.rect.width * rectTransform.localScale.x;
+            SlideOut(rectTransform, duration, new Vector2(rectWidth * 0.5f, rectTransform.anchoredPosition.y));
+        }
+        ///<summary> 
         /// Creates a big slide-down animation for a RectTransform using DOTween, moving it far below the screen.
         ///</summary>
         ///<param name = "duration" > The duration of the animation.</param>
@@ -208,10 +332,83 @@ namespace NEO.Animations
             // Calculate the offset to move the RectTransform completely above the canvas view
             float offset = (canvasRect.rect.height * 0.5f) + rectTransform.pivot.y * rectHeight;
 
-            SlideOut(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, -offset));
+            SlideOut(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, - offset));
+        }
+        ///<summary> 
+        /// Creates a big slide-up animation for a RectTransform using DOTween, moving it far above the screen.
+        ///</summary>
+        ///<param name = "duration" > The duration of the animation.</param>
+        public static void NEOBigSlideUpOut(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            Canvas canvas = rectTransform.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("RectTransform is not inside a Canvas.");
+                return;
+            }
+
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+            float rectHeight = rectTransform.rect.height * rectTransform.localScale.y;
+
+            // Calculate the offset to move the RectTransform completely above the canvas view
+            float offset = (canvasRect.rect.height * 0.5f) + rectTransform.pivot.y * rectHeight;
+
+            SlideOut(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, offset));
+        }
+        ///<summary> 
+        /// Creates a big slide-right animation for a RectTransform using DOTween, moving it far to the right of the screen.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
+        public static void NEOBigSlideRightOut(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            Canvas canvas = rectTransform.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("RectTransform is not inside a Canvas.");
+                return;
+            }
+
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+            float rectWidth = rectTransform.rect.width * rectTransform.localScale.x;
+
+            // Calculate the offset to move the RectTransform completely above the canvas view
+            float offset = (canvasRect.rect.width * 0.5f) + rectTransform.pivot.x * rectWidth;
+
+            SlideOut(rectTransform, duration, new Vector2(offset, rectTransform.anchoredPosition.y));
+        }
+        ///<summary> 
+        /// Creates a big slide-left animation for a RectTransform using DOTween, moving it far to the left of the screen.
+        ///</summary>
+        ///<param name="duration">The duration of the animation.</param>
+        public static void NEOBigSlideLeftOut(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            Canvas canvas = rectTransform.GetComponentInParent<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("RectTransform is not inside a Canvas.");
+                return;
+            }
+
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+
+            float rectWidth = rectTransform.rect.width * rectTransform.localScale.x;
+
+            // Calculate the offset to move the RectTransform completely above the canvas view
+            float offset = (canvasRect.rect.width * 0.5f) + rectTransform.pivot.x * rectWidth;
+
+            SlideOut(rectTransform, duration, new Vector2(- offset, rectTransform.anchoredPosition.y));
         }
         #endregion
-        #region Utils
+
+        #region InternalUtils
         private static void SlideIn(RectTransform rectTransform, float duration,Vector2 startPosition)
         {
             if (rectTransform == null) return;  // Ensure the object exists before starting the animation
