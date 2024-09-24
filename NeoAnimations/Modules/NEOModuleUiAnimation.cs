@@ -83,7 +83,7 @@ namespace NEO.Animations
             SlideIn(rectTransform, duration, new Vector2(rectTransform.anchoredPosition.x, rectHeight * 0.5f));
         }
         ///<summary> 
-        /// Creates a slide-down animation for a RectTransform using DOTween, starting from a position slightly below the initial position.
+        /// Creates a slide-up animation for a RectTransform using DOTween, starting from a position slightly below the initial position.
         ///</summary>
         ///<param name = "duration" > The duration of the animation.</param>
         public static void NEOSlideUpIn(this RectTransform rectTransform, float duration)
