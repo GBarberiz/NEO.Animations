@@ -25,7 +25,7 @@ namespace NEO.Animations
             // Fade in the CanvasGroup alpha over half the duration
             .Join(DOVirtual.Float(0, 1, duration * 0.5f, (value) => canvasGroup.alpha = value))
             // Scale the RectTransform using an OutElastic easing
-            .Join(rectTransform.DOScale(scale, duration).SetEase(Ease.OutElastic,1.7f,0.25f))
+            .Join(rectTransform.DOScale(scale, duration).SetEase(Ease.OutElastic))
             // OnStart: Shrink the scale of the RectTransform by 20% at the beginning of the animation
             .OnStart(() => 
             { 
@@ -40,6 +40,42 @@ namespace NEO.Animations
                 }
             })
             //OnComplete: Ensure CanvasGroup stays enabled after animation finishes
+            .OnComplete(() =>
+            {
+                canvasGroup.enabled = true;
+            });
+        }
+        ///<summary> 
+        /// Creates a bounce-in reverse animation for a RectTransform using DOTween, starting from a scale of 1.2x and shrinking to the original size.
+        ///</summary>
+        ///<param name = "duration" > The duration of the animation.</param>
+        public static void NEOBounceInReverse(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the object exists before starting the animation
+
+            CanvasGroup canvasGroup = CheckCanvasGroup(rectTransform);
+            Vector2 scale = rectTransform.localScale;
+            Sequence sequence = DOTween.Sequence();
+
+            sequence
+            // Fade in the CanvasGroup alpha over half the duration
+            .Join(DOVirtual.Float(0, 1, duration * 0.5f, (value) => canvasGroup.alpha = value))
+            // Scale the RectTransform using an OutElastic easing, starting from 1.2x the original size
+            .Join(rectTransform.DOScale(scale, duration).SetEase(Ease.OutElastic))
+            // OnStart: Start with the RectTransform scale at 1.2x
+            .OnStart(() =>
+            {
+                rectTransform.localScale *= 1.2f;
+            })
+            // OnUpdate: Continuously check if the RectTransform or CanvasGroup is destroyed during the animation
+            .OnUpdate(() =>
+            {
+                if (rectTransform == null || canvasGroup == null)
+                {
+                    sequence.Kill();
+                }
+            })
+            // OnComplete: Ensure CanvasGroup stays enabled after animation finishes
             .OnComplete(() =>
             {
                 canvasGroup.enabled = true;
@@ -206,6 +242,46 @@ namespace NEO.Animations
         #endregion
 
         #region ExitAnimations
+        ///<summary> 
+        /// Creates a bounce-out reverse animation for a RectTransform using DOTween, applying a fade-out effect with CanvasGroup and a scale transformation.
+        ///</summary>
+        ///<param name = "duration" > The duration of the animation.</param>
+        public static void NEOBounceOutReverse(this RectTransform rectTransform, float duration)
+        {
+            if (rectTransform == null) return;  // Ensure the object exists before starting the animation
+
+            Vector2 originalScale = rectTransform.localScale;
+            Sequence sequence = DOTween.Sequence();
+            CanvasGroup canvasGroup = CheckCanvasGroup(rectTransform);
+
+            sequence
+            // Scale the RectTransform using an InElastic easing
+            // Step 1: Scale to 0.9 at 20% of the total duration
+            .Append(rectTransform.DOScale(originalScale * 1.1f, duration * 0.1f).SetEase(Ease.Linear))
+
+            // Step 2: Scale up to 1.1 and hold the opacity at 1 (50%-55% of the total duration)
+            .Append(rectTransform.DOScale(originalScale * 0.8f, duration * 0.4f).SetEase(Ease.Linear))
+
+            // Step 3: Fade out the CanvasGroup alpha from 1 to 0 and shrink the RectTransform to 0.3
+            .Join(rectTransform.DOScale(originalScale * 1.7f, duration * 0.5f).SetEase(Ease.InBack))
+
+            .Join(DOVirtual.Float(1, 0, duration * 0.5f, value => canvasGroup.alpha = value))
+
+            // OnUpdate: Continuously check if the RectTransform or CanvasGroup is destroyed during the animation
+            .OnUpdate(() =>
+            {
+                if (rectTransform == null)
+                {
+                    sequence.Kill();
+                }
+            })
+            //OnComplete: Ensure reset local scale
+            .OnComplete(() =>
+            {
+                canvasGroup.alpha = 0;
+                rectTransform.localScale = originalScale;
+            });
+        }
         ///<summary> 
         /// Creates a bounce-out animation for a RectTransform using DOTween, applying a fade-out effect with CanvasGroup and a scale transformation.
         ///</summary>
