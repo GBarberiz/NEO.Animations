@@ -483,6 +483,48 @@ namespace NEO.Animations
         }
         #endregion
 
+        #region AttentionAnimations
+        ///<summary> 
+        /// Creates a shake animation for a RectTransform using DOTween, shaking it horizontally to draw attention,  useful for feedback like taking damage or other alert mechanisms.
+        ///</summary> 
+        ///<param name="duration">The duration of the animation.</param>
+        ///<param name="strength">The strength of the shake effect.</param>
+        public static void NEOShakeX(this RectTransform rectTransform, float duration = 0.2f,float strength = 20f)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            rectTransform
+                .DOShakeAnchorPos(duration, new Vector2(strength, 0), vibrato: 200, randomness: 0)
+                .SetEase(Ease.OutQuad);
+        }
+        ///<summary> 
+        /// Creates a shake animation for a RectTransform using DOTween, shaking it vertically to draw attention, useful for feedback like taking damage or other alert mechanisms.
+        ///</summary> 
+        ///<param name="duration">The duration of the animation.</param>
+        ///<param name="strength">The strength of the shake effect.</param>
+        public static void NEOShakeY(this RectTransform rectTransform, float duration = 0.2f, float strength = 20f)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            rectTransform
+                .DOShakeAnchorPos(duration, new Vector2(0, strength), vibrato: 200, randomness: 0)
+                .SetEase(Ease.OutQuad);
+        }
+        ///<summary> 
+        /// Creates a shake animation for a RectTransform using DOTween, shaking randomly to draw attention, useful for feedback like taking damage or other alert mechanisms.
+        ///</summary> 
+        ///<param name="duration">The duration of the animation.</param>
+        ///<param name="strength">The strength of the shake effect.</param>
+        public static void NEORandomShake(this RectTransform rectTransform,float duration = 0.2f,float strength = 20f)
+        {
+            if (rectTransform == null) return;  // Ensure the RectTransform exists before starting the animation
+
+            rectTransform
+                .DOShakeAnchorPos(duration, strength,vibrato: 200)
+                .SetEase(Ease.OutQuad);
+        }
+        #endregion
+
         #region InternalUtils
         private static void SlideIn(RectTransform rectTransform, float duration,Vector2 startPosition)
         {
